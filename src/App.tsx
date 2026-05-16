@@ -18,10 +18,10 @@ const flagshipProjects = [
       "Conducted interdisciplinary PhD research focused on the molecular characterization of human adult astrocyte-derived extracellular vesicles (EVs) for biomarker discovery and development of brain liquid biopsy approaches. The work combined experimental molecular biology, extracellular vesicle isolation, small RNA sequencing, LC–MS/MS proteomics, microscopy, and computational multiomics analysis to identify candidate RNA cargo and transmembrane surface markers associated with neurodegenerative disease pathways.",
 
     workflowImage:
-      "/project_images/astrocyte-workflow.svg",
+      `${import.meta.env.BASE_URL}"/project_images/astrocyte-workflow.svg"`,
 
     resultsImage:
-      "/project_images/astrocyte-results.png",
+      `${import.meta.env.BASE_URL}"/project_images/astrocyte-results.png"`,
 
     technologies: [
       "Extracellular Vesicles",
@@ -51,10 +51,10 @@ const flagshipProjects = [
       "Developed a config-driven multiomics data pipeline integrating RNA-seq and proteomics datasets from GEO and PRIDE repositories. The pipeline includes metadata harmonization, feature ID mapping, batch effect assessment, QC reporting, machine learning-based feature selection, dashboard generation, and reproducible multiomics analysis workflows.",
 
     workflowImage:
-      "/project_images/multiomics-workflow.png",
+      `${import.meta.env.BASE_URL}"/project_images/multiomics-workflow.png"`,
 
     resultsImage:
-      "/project_images/multiomics-results.png",
+      `${import.meta.env.BASE_URL}"/project_images/multiomics-results.png"`,
 
     technologies: [
       "Python",
@@ -81,10 +81,10 @@ const flagshipProjects = [
       "Performed Gene Ontology annotation and functional enrichment analysis for plant-derived nanovesicle proteomics datasets. The workflow involved protein annotation, pathway interpretation, enrichment visualization, and downstream biological interpretation of LC–MS/MS proteomics data.",
 
     workflowImage:
-      "/project_images/go-workflow.png",
+      `${import.meta.env.BASE_URL}"/project_images/go-workflow.png"`,
 
     resultsImage:
-      "/project_images/go-results.svg",
+      `${import.meta.env.BASE_URL}"/project_images/go-results.svg"`,
 
     technologies: [
       "Proteomics",
@@ -110,10 +110,10 @@ const flagshipProjects = [
       "Developed reproducible workflows for protein differential expression analysis and downstream visualization for extracellular vesicle and multiomics datasets. The analyses included normalization, statistical testing, visualization, and interpretation of biologically relevant protein expression patterns.",
 
     workflowImage:
-      "/project_images/protein-workflow.png",
+      `${import.meta.env.BASE_URL}"/project_images/protein-workflow.png"`,
 
     resultsImage:
-      "/project_images/protein-results.svg",
+      `${import.meta.env.BASE_URL}"/project_images/protein-results.svg"`,
 
     technologies: [
       "Proteomics",
