@@ -18,7 +18,7 @@ const flagshipProjects = [
       "Conducted interdisciplinary PhD research focused on the molecular characterization of human adult astrocyte-derived extracellular vesicles (EVs) for biomarker discovery and development of brain liquid biopsy approaches. The work combined experimental molecular biology, extracellular vesicle isolation, small RNA sequencing, LC–MS/MS proteomics, microscopy, and computational multiomics analysis to identify candidate RNA cargo and transmembrane surface markers associated with neurodegenerative disease pathways.",
 
     workflowImage:
-      "/project_images/astrocyte-workflow.SVG",
+      "/project_images/astrocyte-workflow.svg",
 
     resultsImage:
       "/project_images/astrocyte-results.png",
@@ -84,7 +84,7 @@ const flagshipProjects = [
       "/project_images/go-workflow.png",
 
     resultsImage:
-      "/project_images/go-results.SVG",
+      "/project_images/go-results.svg",
 
     technologies: [
       "Proteomics",
@@ -113,7 +113,7 @@ const flagshipProjects = [
       "/project_images/protein-workflow.png",
 
     resultsImage:
-      "/project_images/protein-results.SVG",
+      "/project_images/protein-results.svg",
 
     technologies: [
       "Proteomics",
