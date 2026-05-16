@@ -448,7 +448,7 @@ const flagshipProjects = [
 
     <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-400">
       Research engineering, computational biology, and multiomics workflows
-      combining experimental biology with reproducible data analysis pipelines.
+      integrating experimental biology with reproducible computational analysis.
     </p>
   </div>
 
@@ -496,11 +496,15 @@ const flagshipProjects = [
               </a>
 
               <button
-                onClick={() => setSelectedProject(project)}
+                onClick={() => {
+                  setSelectedProject(project);
+                  setCurrentImageIndex(0);
+                }}
                 className="rounded-2xl border border-cyan-300/20 bg-white/5 px-5 py-3 font-semibold text-cyan-300 transition hover:bg-cyan-300 hover:text-slate-900"
               >
-                View Workflow
+                View Figures
               </button>
+
             </div>
           </div>
 
@@ -509,14 +513,14 @@ const flagshipProjects = [
             onClick={() => {
               setSelectedProject(project);
               setCurrentImageIndex(0);
-          }}
+            }}
             className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#0b1520]"
           >
 
             <img
               src={project.images[0]}
               alt={`${project.title} workflow`}
-              className="h-[240px] w-full object-cover transition duration-500 group-hover:scale-[1.02]"
+              className="h-[260px] w-full object-cover transition duration-500 group-hover:scale-[1.02]"
             />
 
             <div className="absolute inset-0 bg-gradient-to-t from-[#071018] via-[#071018]/20 to-transparent" />
@@ -536,6 +540,7 @@ const flagshipProjects = [
               <div className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-xs font-medium text-cyan-200">
                 Open
               </div>
+
             </div>
           </button>
         </div>
@@ -543,90 +548,125 @@ const flagshipProjects = [
     ))}
   </div>
 
-<div className="relative">
+  {/* MODAL */}
+  {selectedProject && (
 
-  <div className="mb-6 flex items-center justify-between">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-6 backdrop-blur-sm">
 
-    <button
-      onClick={() =>
-        setCurrentImageIndex((prev) =>
-          prev === 0
-            ? selectedProject.images.length - 1
-            : prev - 1
-        )
-      }
-      className="rounded-xl border border-cyan-300/20 bg-white/5 px-4 py-2 text-cyan-300 transition hover:bg-cyan-300 hover:text-slate-900"
-    >
-      ← Previous
-    </button>
+      <div className="relative max-h-[95vh] w-full max-w-6xl overflow-y-auto rounded-[2rem] border border-white/10 bg-[#071018] p-8">
 
-    <p className="text-sm text-slate-400">
-      {currentImageIndex + 1} / {selectedProject.images.length}
-    </p>
+        {/* CLOSE BUTTON */}
+        <button
+          onClick={() => setSelectedProject(null)}
+          className="absolute right-6 top-6 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-300 transition hover:bg-cyan-300 hover:text-slate-900"
+        >
+          Close
+        </button>
 
-    <button
-      onClick={() =>
-        setCurrentImageIndex((prev) =>
-          prev === selectedProject.images.length - 1
-            ? 0
-            : prev + 1
-        )
-      }
-      className="rounded-xl border border-cyan-300/20 bg-white/5 px-4 py-2 text-cyan-300 transition hover:bg-cyan-300 hover:text-slate-900"
-    >
-      Next →
-    </button>
-  </div>
+        <div className="mb-10">
+          <p className="text-sm uppercase tracking-[0.2em] text-cyan-300">
+            Expanded Project View
+          </p>
 
-  <TransformWrapper
-    initialScale={1}
-    minScale={0.7}
-    maxScale={4}
-    centerOnInit
-  >
-    {({ zoomIn, zoomOut, resetTransform }) => (
-      <>
-
-        <div className="mb-4 flex gap-3">
-
-          <button
-            onClick={() => zoomIn()}
-            className="rounded-xl border border-cyan-300/20 bg-white/5 px-4 py-2 text-cyan-300 transition hover:bg-cyan-300 hover:text-slate-900"
-          >
-            Zoom In
-          </button>
-
-          <button
-            onClick={() => zoomOut()}
-            className="rounded-xl border border-cyan-300/20 bg-white/5 px-4 py-2 text-cyan-300 transition hover:bg-cyan-300 hover:text-slate-900"
-          >
-            Zoom Out
-          </button>
-
-          <button
-            onClick={() => resetTransform()}
-            className="rounded-xl border border-cyan-300/20 bg-white/5 px-4 py-2 text-cyan-300 transition hover:bg-cyan-300 hover:text-slate-900"
-          >
-            Reset
-          </button>
-
+          <h3 className="mt-3 text-3xl font-bold text-white">
+            {selectedProject.title}
+          </h3>
         </div>
 
-        <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#0a141f] p-4">
+        {/* IMAGE NAVIGATION */}
+        <div className="mb-6 flex items-center justify-between">
 
-          <TransformComponent>
-            <img
-              src={selectedProject.images[currentImageIndex]}
-              alt="Project figure"
-              className="max-h-[75vh] w-full object-contain"
-            />
-          </TransformComponent>
+          <button
+            onClick={() =>
+              setCurrentImageIndex((prev) =>
+                prev === 0
+                  ? selectedProject.images.length - 1
+                  : prev - 1
+              )
+            }
+            className="rounded-xl border border-cyan-300/20 bg-white/5 px-4 py-2 text-cyan-300 transition hover:bg-cyan-300 hover:text-slate-900"
+          >
+            ← Previous
+          </button>
 
+          <p className="text-sm text-slate-400">
+            {currentImageIndex + 1} / {selectedProject.images.length}
+          </p>
+
+          <button
+            onClick={() =>
+              setCurrentImageIndex((prev) =>
+                prev === selectedProject.images.length - 1
+                  ? 0
+                  : prev + 1
+              )
+            }
+            className="rounded-xl border border-cyan-300/20 bg-white/5 px-4 py-2 text-cyan-300 transition hover:bg-cyan-300 hover:text-slate-900"
+          >
+            Next →
+          </button>
         </div>
-      </>
-    )}
-  </TransformWrapper>
-</div>
+
+        {/* ZOOM CONTROLS */}
+        <TransformWrapper
+          initialScale={1}
+          minScale={0.7}
+          maxScale={4}
+          centerOnInit
+        >
+          {({ zoomIn, zoomOut, resetTransform }) => (
+            <>
+
+              <div className="mb-4 flex gap-3">
+
+                <button
+                  onClick={() => zoomIn()}
+                  className="rounded-xl border border-cyan-300/20 bg-white/5 px-4 py-2 text-cyan-300 transition hover:bg-cyan-300 hover:text-slate-900"
+                >
+                  Zoom In
+                </button>
+
+                <button
+                  onClick={() => zoomOut()}
+                  className="rounded-xl border border-cyan-300/20 bg-white/5 px-4 py-2 text-cyan-300 transition hover:bg-cyan-300 hover:text-slate-900"
+                >
+                  Zoom Out
+                </button>
+
+                <button
+                  onClick={() => resetTransform()}
+                  className="rounded-xl border border-cyan-300/20 bg-white/5 px-4 py-2 text-cyan-300 transition hover:bg-cyan-300 hover:text-slate-900"
+                >
+                  Reset
+                </button>
+
+              </div>
+
+              {/* IMAGE */}
+              <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#0a141f] p-4">
+
+                <TransformComponent>
+
+                  <img
+                    src={selectedProject.images[currentImageIndex]}
+                    alt="Project figure"
+                    className="max-h-[75vh] w-full object-contain"
+                  />
+
+                </TransformComponent>
+
+              </div>
+
+            </>
+          )}
+        </TransformWrapper>
+
+      </div>
+    </div>
+
+  )}
+
+</section>
 
       {/* Skills */}
       <section
