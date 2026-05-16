@@ -1,7 +1,15 @@
 import ResearchMap from "./components/ResearchMap";
 import { useState } from "react";
+
+import {
+  TransformWrapper,
+  TransformComponent,
+} from "react-zoom-pan-pinch";
+
 export default function ResearchEngineeringPortfolio() {
   const [selectedProject, setSelectedProject] = useState(null);
+
+const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const focusAreas = [
   "Multiomics integration workflows",
   "Reproducible HPC pipelines",
@@ -17,11 +25,10 @@ const flagshipProjects = [
     description:
       "Conducted interdisciplinary PhD research focused on the molecular characterization of human adult astrocyte-derived extracellular vesicles (EVs) for biomarker discovery and development of brain liquid biopsy approaches. The work combined experimental molecular biology, extracellular vesicle isolation, small RNA sequencing, LC–MS/MS proteomics, microscopy, and computational multiomics analysis to identify candidate RNA cargo and transmembrane surface markers associated with neurodegenerative disease pathways.",
 
-    workflowImage:
+    images: [
       `${import.meta.env.BASE_URL}project_images/astrocyte-workflow.svg`,
-
-    resultsImage:
       `${import.meta.env.BASE_URL}project_images/astrocyte-results.png`,
+  ],
 
     technologies: [
       "Extracellular Vesicles",
@@ -49,12 +56,10 @@ const flagshipProjects = [
 
     description:
       "Developed a config-driven multiomics data pipeline integrating RNA-seq and proteomics datasets from GEO and PRIDE repositories. The pipeline includes metadata harmonization, feature ID mapping, batch effect assessment, QC reporting, machine learning-based feature selection, dashboard generation, and reproducible multiomics analysis workflows.",
-
-    workflowImage:
+    images: [
       `${import.meta.env.BASE_URL}project_images/multiomics-workflow.png`,
-
-    resultsImage:
       `${import.meta.env.BASE_URL}project_images/multiomics-results.png`,
+    ],
 
     technologies: [
       "Python",
@@ -80,11 +85,10 @@ const flagshipProjects = [
     description:
       "Performed Gene Ontology annotation and functional enrichment analysis for plant-derived nanovesicle proteomics datasets. The workflow involved protein annotation, pathway interpretation, enrichment visualization, and downstream biological interpretation of LC–MS/MS proteomics data.",
 
-    workflowImage:
+    images: [
       `${import.meta.env.BASE_URL}project_images/go-workflow.png`,
-
-    resultsImage:
       `${import.meta.env.BASE_URL}project_images/go-results.svg`,
+    ],
 
     technologies: [
       "Proteomics",
@@ -108,12 +112,10 @@ const flagshipProjects = [
 
     description:
       "Developed reproducible workflows for protein differential expression analysis and downstream visualization for extracellular vesicle and multiomics datasets. The analyses included normalization, statistical testing, visualization, and interpretation of biologically relevant protein expression patterns.",
-
-    workflowImage:
+    images: [
       `${import.meta.env.BASE_URL}project_images/protein-workflow.png`,
-
-    resultsImage:
       `${import.meta.env.BASE_URL}project_images/protein-results.svg`,
+    ],
 
     technologies: [
       "Proteomics",
@@ -504,12 +506,15 @@ const flagshipProjects = [
 
           {/* IMAGE PREVIEW */}
           <button
-            onClick={() => setSelectedProject(project)}
+            onClick={() => {
+              setSelectedProject(project);
+              setCurrentImageIndex(0);
+          }}
             className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#0b1520]"
           >
 
             <img
-              src={project.workflowImage}
+              src={project.images[0]}
               alt={`${project.title} workflow`}
               className="h-[240px] w-full object-cover transition duration-500 group-hover:scale-[1.02]"
             />
@@ -538,66 +543,90 @@ const flagshipProjects = [
     ))}
   </div>
 
-  {/* MODAL */}
-  {selectedProject && (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-6 backdrop-blur-sm">
+<div className="relative">
 
-      <div className="relative max-h-[95vh] w-full max-w-6xl overflow-y-auto rounded-[2rem] border border-white/10 bg-[#071018] p-8">
+  <div className="mb-6 flex items-center justify-between">
 
-        {/* Close */}
-        <button
-          onClick={() => setSelectedProject(null)}
-          className="absolute right-6 top-6 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-300 transition hover:bg-cyan-300 hover:text-slate-900"
-        >
-          Close
-        </button>
+    <button
+      onClick={() =>
+        setCurrentImageIndex((prev) =>
+          prev === 0
+            ? selectedProject.images.length - 1
+            : prev - 1
+        )
+      }
+      className="rounded-xl border border-cyan-300/20 bg-white/5 px-4 py-2 text-cyan-300 transition hover:bg-cyan-300 hover:text-slate-900"
+    >
+      ← Previous
+    </button>
 
-        <div className="mb-10">
-          <p className="text-sm uppercase tracking-[0.2em] text-cyan-300">
-            Expanded Project View
-          </p>
+    <p className="text-sm text-slate-400">
+      {currentImageIndex + 1} / {selectedProject.images.length}
+    </p>
 
-          <h3 className="mt-3 text-3xl font-bold text-white">
-            {selectedProject.title}
-          </h3>
+    <button
+      onClick={() =>
+        setCurrentImageIndex((prev) =>
+          prev === selectedProject.images.length - 1
+            ? 0
+            : prev + 1
+        )
+      }
+      className="rounded-xl border border-cyan-300/20 bg-white/5 px-4 py-2 text-cyan-300 transition hover:bg-cyan-300 hover:text-slate-900"
+    >
+      Next →
+    </button>
+  </div>
+
+  <TransformWrapper
+    initialScale={1}
+    minScale={0.7}
+    maxScale={4}
+    centerOnInit
+  >
+    {({ zoomIn, zoomOut, resetTransform }) => (
+      <>
+
+        <div className="mb-4 flex gap-3">
+
+          <button
+            onClick={() => zoomIn()}
+            className="rounded-xl border border-cyan-300/20 bg-white/5 px-4 py-2 text-cyan-300 transition hover:bg-cyan-300 hover:text-slate-900"
+          >
+            Zoom In
+          </button>
+
+          <button
+            onClick={() => zoomOut()}
+            className="rounded-xl border border-cyan-300/20 bg-white/5 px-4 py-2 text-cyan-300 transition hover:bg-cyan-300 hover:text-slate-900"
+          >
+            Zoom Out
+          </button>
+
+          <button
+            onClick={() => resetTransform()}
+            className="rounded-xl border border-cyan-300/20 bg-white/5 px-4 py-2 text-cyan-300 transition hover:bg-cyan-300 hover:text-slate-900"
+          >
+            Reset
+          </button>
+
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-2">
+        <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#0a141f] p-4">
 
-          {/* Workflow */}
-          <div>
-            <p className="mb-4 text-sm uppercase tracking-[0.2em] text-cyan-300">
-              Workflow Architecture
-            </p>
+          <TransformComponent>
+            <img
+              src={selectedProject.images[currentImageIndex]}
+              alt="Project figure"
+              className="max-h-[75vh] w-full object-contain"
+            />
+          </TransformComponent>
 
-            <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#0a141f] p-4">
-              <img
-                src={selectedProject.workflowImage}
-                alt="Workflow"
-                className="max-h-[75vh] w-full object-contain"
-              />
-            </div>
-          </div>
-
-          {/* Results */}
-          <div>
-            <p className="mb-4 text-sm uppercase tracking-[0.2em] text-cyan-300">
-              Sample Outputs & Results
-            </p>
-
-            <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#0a141f] p-4">
-              <img
-                src={selectedProject.resultsImage}
-                alt="Results"
-                className="max-h-[75vh] w-full object-contain"
-              />
-            </div>
-          </div>
         </div>
-      </div>
-    </div>
-  )}
-</section>
+      </>
+    )}
+  </TransformWrapper>
+</div>
 
       {/* Skills */}
       <section
